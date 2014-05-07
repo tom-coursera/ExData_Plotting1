@@ -22,9 +22,29 @@
     # convert date-time string to POSIXlt format (required for plotting)
     date_time <- strptime(date_time_string, "%d/%m/%Y %H:%M:%S")
     
-    # draw the plot
-    plot(date_time, gap, type = "l", xlab = "", ylab = "Global Active Power (kilowatts)")
+    # draw the plot to the screen
+    par(mar = c(4,4,1,0))
+    plot(date_time, sub_meter_1, type = "l", xlab = "", ylab = "Energy sub metering", col = "black")
+    lines(date_time, sub_meter_2, col = "red")
+    lines(date_time, sub_meter_3, col = "blue")
     
-    # copy the plot to a png file and close the device
-    dev.copy(png, file = "plot3.png")
+    # add legend
+    legend("topright", 
+           lty = 1, lwd = 1,
+           col = c("black", "red", "blue"), 
+           legend = c(names(data_frame)[7], names(data_frame)[8], names(data_frame)[9])
+           )
+    
+    # draw the same plot to jpeg file
+    jpeg(file = "plot3.png")
+    plot(date_time, sub_meter_1, type = "l", xlab = "", ylab = "Energy sub metering", col = "black")
+    lines(date_time, sub_meter_2, col = "red")
+    lines(date_time, sub_meter_3, col = "blue")
+    
+    # add legend
+    legend("topright", 
+           lty = 1, lwd = 1,
+           col = c("black", "red", "blue"), 
+           legend = c(names(data_frame)[7], names(data_frame)[8], names(data_frame)[9])
+    )
     dev.off()
