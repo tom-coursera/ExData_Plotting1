@@ -11,13 +11,18 @@
     # convert 1st column from character to date
     date <- as.Date(data_frame[,1], "%d/%m/%Y")
     
-    # draw a histogram of column 3 (Global Active Power)
-    hist(data_frame[date == "2007-02-01" | date == "2007-02-02", 3], 
-         col = "red", 
-         main = "Global Active Power", 
-         xlab = "Global Active Power (kilowatts)"
-         )
+    # extract only a subset from specified dates
+    gap <- data_frame[date == "2007-02-01" | date == "2007-02-02", 3]
+    date_string <- data_frame[date == "2007-02-01" | date == "2007-02-02", 1]
+    time_string <- data_frame[date == "2007-02-01" | date == "2007-02-02", 2]
+    date_time_string <- paste(date_string, time_string)
+    
+    # convert date-time string to POSIXlt format (required for plotting)
+    date_time <- strptime(date_time_string, "%d/%m/%Y %H:%M:%S")
+    
+    # draw the plot
+    plot(date_time, gap, type = "l", xlab = "", ylab = "Global Active Power (kilowatts)")
     
     # copy the plot to a png file and close the device
-    dev.copy(png, file = "plot1.png")
+    dev.copy(png, file = "plot2.png")
     dev.off()
